@@ -34,7 +34,9 @@ class _EditState extends State<Edit> {
   }
 
   Future<List> getFutureData() async {
+    // Get note from in app db
     List data = await NotesProvider().getNote(widget.id);
+    // Sets initial text for TextEditingController
     _titleController = TextEditingController(text: data[0]['title']);
     _contentController = TextEditingController(text: data[0]['content']);
     return data;
@@ -74,7 +76,9 @@ class _EditState extends State<Edit> {
                       'content': _contentController.text,
                     }
                   ];
+                  // Adds new note update to the db
                   NotesProvider().updateNote(newNote);
+                  // return to dashboard screen
                   context.go('/');
                 });
               },
@@ -105,6 +109,7 @@ class _EditState extends State<Edit> {
                         Padding(
                           padding:
                               const EdgeInsets.fromLTRB(38.0, 20.0, 37.0, 10.0),
+                          // Toggle between Texfield and Text based on state of isEditing
                           child: isEditing
                               ? TextField(
                                   keyboardType: TextInputType.multiline,

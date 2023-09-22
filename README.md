@@ -8,6 +8,9 @@ Run the following commands in your terminal
 
 ```shell
     cd offline_notes
+    # install packages
+    flutter pub get
+    # start development device
     flutter run
     # Select one of the available device you want to run the development for.
 ```

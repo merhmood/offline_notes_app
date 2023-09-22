@@ -38,15 +38,21 @@ class ScreenUtils {
                 children: [
                   Text(
                     text,
-                    style: const TextStyle(fontSize: 16.0),
+                    style: MediaQuery.of(context).size.width > 350.0
+                        ? const TextStyle(fontSize: 16.0)
+                        : const TextStyle(fontSize: 12.0),
                     textAlign: TextAlign.center,
                   ),
                   Padding(
                     padding: emptyWarningPadding(),
                     child: Text(
                       warning,
-                      style: const TextStyle(
-                          color: Color.fromRGBO(255, 0, 0, 1), fontSize: 16.0),
+                      style: TextStyle(
+                        color: const Color.fromRGBO(255, 0, 0, 1),
+                        fontSize: MediaQuery.of(context).size.width > 350.0
+                            ? 16.0
+                            : 12.0,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -63,7 +69,16 @@ class ScreenUtils {
                                 Color.fromRGBO(255, 0, 0, 1)),
                             elevation: MaterialStatePropertyAll(0.0),
                           ),
-                          child: Text(redButtonText),
+                          child: Text(
+                            redButtonText,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize:
+                                  MediaQuery.of(context).size.width > 350.0
+                                      ? 16.0
+                                      : 12.0,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 20.0),
                         ElevatedButton(
@@ -74,7 +89,16 @@ class ScreenUtils {
                             ),
                             elevation: MaterialStatePropertyAll(0.0),
                           ),
-                          child: Text(greenButtonText),
+                          child: Text(
+                            greenButtonText,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize:
+                                  MediaQuery.of(context).size.width > 350.0
+                                      ? 16.0
+                                      : 12.0,
+                            ),
+                          ),
                         )
                       ],
                     ),
