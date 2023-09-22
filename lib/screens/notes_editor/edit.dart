@@ -107,6 +107,8 @@ class _EditState extends State<Edit> {
                               const EdgeInsets.fromLTRB(38.0, 20.0, 37.0, 10.0),
                           child: isEditing
                               ? TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 2,
                                   controller: _titleController,
                                   style: const TextStyle(fontSize: 30.0),
                                 )
@@ -125,6 +127,8 @@ class _EditState extends State<Edit> {
                             child: SingleChildScrollView(
                               child: isEditing
                                   ? TextField(
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 5,
                                       controller: _contentController,
                                       style: const TextStyle(fontSize: 20.0),
                                     )

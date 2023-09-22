@@ -73,6 +73,8 @@ class _AddState extends State<Add> {
             Padding(
               padding: const EdgeInsets.fromLTRB(40.0, 0.0, 15.0, 0.0),
               child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: 2,
                 style: const TextStyle(fontSize: 30.0),
                 decoration: const InputDecoration(
                   hintText: 'Title',
@@ -86,6 +88,8 @@ class _AddState extends State<Add> {
             Padding(
               padding: const EdgeInsets.fromLTRB(40.0, 0.0, 15.0, 0.0),
               child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: 5,
                 style: const TextStyle(fontSize: 20.0),
                 decoration: const InputDecoration(
                   hintText: 'Type something...',

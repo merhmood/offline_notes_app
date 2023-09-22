@@ -178,13 +178,13 @@ class _DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                       );
                     } else {
                       return Container(
-                        height: double.infinity,
+                        height: double.maxFinite,
                         color: Colors.white,
                       );
                     }
                   }
                   return Container(
-                    height: double.infinity,
+                    height: double.maxFinite,
                     color: Colors.white,
                   );
                 },
