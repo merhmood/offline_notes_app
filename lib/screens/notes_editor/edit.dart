@@ -111,6 +111,14 @@ class _EditState extends State<Edit> {
                                   maxLines: 2,
                                   controller: _titleController,
                                   style: const TextStyle(fontSize: 30.0),
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                    ),
+                                  ),
                                 )
                               : SizedBox(
                                   width: double.maxFinite,
@@ -131,6 +139,14 @@ class _EditState extends State<Edit> {
                                       maxLines: 5,
                                       controller: _contentController,
                                       style: const TextStyle(fontSize: 20.0),
+                                      decoration: const InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0),
+                                          ),
+                                        ),
+                                      ),
                                     )
                                   : Text(
                                       snapshot.data![0]['content'],
