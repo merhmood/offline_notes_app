@@ -42,13 +42,15 @@ class _AddState extends State<Add> {
             padding: const EdgeInsets.fromLTRB(10.0, 18.0, 22.0, 18.0),
             child: ElevatedButton(
               onPressed: () {
-                setState(() {
-                  NotesProvider().addNotes(
-                    _title.text,
-                    _content.text,
-                  );
-                  context.go('/');
-                });
+                if (_title.text != "" && _content.text != "") {
+                  setState(() {
+                    NotesProvider().addNotes(
+                      _title.text,
+                      _content.text,
+                    );
+                    context.go('/');
+                  });
+                }
               },
               style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.transparent),

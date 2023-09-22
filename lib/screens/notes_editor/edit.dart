@@ -110,9 +110,12 @@ class _EditState extends State<Edit> {
                                   controller: _titleController,
                                   style: const TextStyle(fontSize: 30.0),
                                 )
-                              : Text(
-                                  snapshot.data![0]['title'],
-                                  style: const TextStyle(fontSize: 30.0),
+                              : SizedBox(
+                                  width: double.maxFinite,
+                                  child: Text(
+                                    snapshot.data![0]['title'],
+                                    style: const TextStyle(fontSize: 30.0),
+                                  ),
                                 ),
                         ),
                         SizedBox(

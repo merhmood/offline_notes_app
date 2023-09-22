@@ -13,13 +13,27 @@ class DashBoard extends StatefulWidget {
   State<DashBoard> createState() => _DashBoardState();
 }
 
-class _DashBoardState extends State<DashBoard> {
+class _DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
   late Future<List> _future;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _future = NotesProvider().getNotes();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _future = NotesProvider().getNotes();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -87,91 +101,89 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
-  SingleChildScrollView noteList() {
+  Widget noteList() {
     // This is a vertical scrollable list, with a container expanded
     // to fill all the available space
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-          // Entire width of container
-          width: double.maxFinite,
-          decoration: const BoxDecoration(color: Colors.white),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Column(children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(34.0, 0.0, 34.0, 0.0),
-                // This builds the future Notes we go from the Notes Provider,
-                // without the future build the notes may be null, because,
-                // they not be available yet
-                child: FutureBuilder(
-                  future: _future,
-                  builder: (context, snapshot) {
-                    // Checks for finished connection state.
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // Check for the availability of the Notes data
-                      if (snapshot.hasData) {
-                        // Iterates of the Notes and displays a List tile
-                        return ListView.builder(
-                          // Ensures that each list increase size based on it's childs size
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin:
-                                  const EdgeInsetsDirectional.only(top: 10.0),
-                              decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(253, 255, 182, 1),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0),
-                                  )),
-                              child: ListTile(
-                                onTap: () {
-                                  // Holds the noteId value
-                                  final noteId =
-                                      snapshot.data![index]['noteId'];
-                                  if (noteId != null) {
-                                    // Navigates to the edit page, based on its noteId
-                                    context.go(
-                                      "/notes-editor/edit/$noteId",
-                                    );
-                                  }
-                                },
-                                title: Text(
-                                  snapshot.data![index]['title'],
-                                  style: const TextStyle(fontSize: 18.0),
-                                ),
-                                trailing: ElevatedButton(
-                                  // On click of the sync button, modal should show up
-                                  onPressed: () {
-                                    _showDialog(context,
-                                        snapshot.data![index]['title']);
-                                  },
-                                  style: const ButtonStyle(
-                                    elevation: MaterialStatePropertyAll(0.0),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        Colors.transparent),
-                                  ),
-                                  // Shows syncStatus icon based on current syncStatus data.
-                                  child: snapshot.data![index]['syncStatus'] ==
-                                          'Unsynced'
-                                      ? const CloudCross()
-                                      : const CloudDone(),
-                                ),
+    return Container(
+      height: double.infinity,
+      decoration: const BoxDecoration(color: Colors.white),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(34.0, 0.0, 34.0, 0.0),
+              // This builds the future Notes we go from the Notes Provider,
+              // without the future build the notes may be null, because,
+              // they not be available yet
+              child: FutureBuilder(
+                future: _future,
+                builder: (context, snapshot) {
+                  // Checks for finished connection state.
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    // Check for the availability of the Notes data
+                    if (snapshot.hasData) {
+                      // Iterates of the Notes and displays a List tile
+                      return ListView.builder(
+                        // Ensures that each list increase size based on it's childs size
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsetsDirectional.only(top: 10.0),
+                            decoration: const BoxDecoration(
+                                color: Color.fromRGBO(253, 255, 182, 1),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                )),
+                            child: ListTile(
+                              onTap: () {
+                                // Holds the noteId value
+                                final noteId = snapshot.data![index]['noteId'];
+                                if (noteId != null) {
+                                  // Navigates to the edit page, based on its noteId
+                                  context.go(
+                                    "/notes-editor/edit/$noteId",
+                                  );
+                                }
+                              },
+                              title: Text(
+                                snapshot.data![index]['title'],
+                                style: const TextStyle(fontSize: 18.0),
                               ),
-                            );
-                          },
-                        );
-                      } else {
-                        return Container();
-                      }
+                              trailing: ElevatedButton(
+                                // On click of the sync button, modal should show up
+                                onPressed: () {
+                                  _showDialog(
+                                      context, snapshot.data![index]['title']);
+                                },
+                                style: const ButtonStyle(
+                                  elevation: MaterialStatePropertyAll(0.0),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Colors.transparent),
+                                ),
+                                // Shows syncStatus icon based on current syncStatus data.
+                                child: snapshot.data![index]['syncStatus'] ==
+                                        'Unsynced'
+                                    ? const CloudCross()
+                                    : const CloudDone(),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return Container();
                     }
-                    return Container();
-                  },
-                ),
-              )
-            ]),
-          )),
+                  }
+                  return Container();
+                },
+              ),
+            )
+          ]),
+        ),
+      ),
     );
   }
 
