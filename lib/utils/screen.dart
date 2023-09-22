@@ -52,8 +52,9 @@ class ScreenUtils {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      direction: Axis.horizontal,
                       children: [
                         ElevatedButton(
                           onPressed: redOnpressed,

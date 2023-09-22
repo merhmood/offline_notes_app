@@ -20,12 +20,15 @@ class _DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    // This initializes the state because late _future throws error
+    // on app init
     _future = NotesProvider().getNotes();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+    // Perserve state between minimization
     if (state == AppLifecycleState.resumed) {
       _future = NotesProvider().getNotes();
     }
@@ -174,10 +177,16 @@ class _DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                         },
                       );
                     } else {
-                      return Container();
+                      return Container(
+                        height: double.infinity,
+                        color: Colors.white,
+                      );
                     }
                   }
-                  return Container();
+                  return Container(
+                    height: double.infinity,
+                    color: Colors.white,
+                  );
                 },
               ),
             )
